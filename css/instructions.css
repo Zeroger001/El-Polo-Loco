@@ -1,0 +1,268 @@
+/* 1. LAYOUT & STRUCTURE */
+
+/* Main container for the instruction overlay */
+#polo_instruction {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #000000c2;
+    border-radius: 25px;
+    color: #ffd900;
+}
+
+/* Card wrapper with animated glowing border */
+.animated-bgr {
+    position: relative;
+    border-radius: 10px;
+    width: 600px;
+    padding: 3px;
+    background: transparent;
+}
+
+/* Content box above the animated border */
+.animated-bgr-content {
+    position: relative;
+    z-index: 5;
+    background-color: #000;
+    border-radius: 10px;
+    padding: 2em;
+    text-align: center;
+    font-family: "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif;
+}
+
+.animated-bgr-content p {
+    font-size: 18px;
+    line-height: 1.2;
+    margin: 6px;
+}
+
+
+/* 2. TABLES */
+
+/* Table structure */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    font-size: 22px;
+    background-color: #000;
+}
+
+/* Table borders & spacing */
+th,
+td {
+    border: 1px solid #444;
+    padding: 10px;
+    text-align: center;
+}
+
+/* Table header with gradient text */
+th {
+    background: #000;
+    background: linear-gradient(90deg,
+            #f7c368, #a1230a, #87ad2f,
+            #f7c368, #a1230a, #87ad2f);
+    background-size: 300%;
+    animation: gradientMove 8s ease-in-out infinite alternate;
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Table cell background */
+td {
+    background-color: #000;
+}
+
+
+/* 3. BUTTONS / CONTROLS (KBD KEYS) */
+
+kbd {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 75px;
+    height: 75px;
+    margin: 5px;
+    border: 2px solid #ffffff;
+    border-radius: 10px;
+    background-color: #000000;
+    color: #ffffff;
+    font-size: 26px;
+    font-family: monospace;
+    text-align: center;
+}
+
+
+/* 4. MODAL / OVERLAY SYSTEM*/
+
+/* Background dim */
+.modal {
+    position: fixed;
+    inset: 0;
+    background-color: #000000cc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+/* Hidden state toggle */
+.hidden {
+    display: none;
+}
+
+/* Close button */
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    color: #fff;
+    font-size: 32px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.close-btn:hover {
+    color: #ffcc00;
+    transform: scale(1.2);
+}
+
+/* Opening animation container */
+.card {
+    transform: scale(0.9);
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.modal.show .card {
+    transform: scale(1);
+    opacity: 1;
+}
+
+
+/* 5. ANIMATED SPRITES (ICONS) */
+
+.anim-img {
+    width: 64px;
+    height: 64px;
+    background-size: cover;
+    animation: flicker 2s steps(1) infinite;
+}
+
+/* Chicken animation */
+.chicken {
+    background-image: url("../img/3_enemies_chicken/chicken_normal/1_walk/1_w.png");
+    animation: chickenAnim 2s steps(1) infinite;
+}
+
+@keyframes chickenAnim {
+    0% {
+        background-image: url("../img/3_enemies_chicken/chicken_normal/1_walk/1_w.png");
+    }
+
+    25% {
+        background-image: url("../img/3_enemies_chicken/chicken_normal/1_walk/2_w.png");
+    }
+
+    45% {
+        background-image: url("../img/3_enemies_chicken/chicken_normal/1_walk/3_w.png");
+    }
+
+    60%,
+    100% {
+        background-image: url("../img/3_enemies_chicken/chicken_normal/2_dead/dead.png");
+    }
+}
+
+/* Salsa animation */
+.salsa {
+    background-image: url("../img/6_salsa_bottle/2_salsa_bottle_on_ground.png");
+    animation: salsaAnim 1s steps(1) infinite;
+}
+
+@keyframes salsaAnim {
+    0% {
+        background-image: url("../img/6_salsa_bottle/1_salsa_bottle_on_ground.png");
+    }
+
+    50%,
+    100% {
+        background-image: url("../img/6_salsa_bottle/2_salsa_bottle_on_ground.png");
+    }
+}
+
+/* Coin animation */
+.coin {
+    background-image: url("../img/8_coin/coin_1.png");
+    animation: coinAnim 1s steps(1) infinite;
+}
+
+@keyframes coinAnim {
+    0% {
+        background-image: url("../img/8_coin/coin_1.png");
+    }
+
+    50%,
+    100% {
+        background-image: url("../img/8_coin/coin_2.png");
+    }
+}
+
+
+/* 6. ANIMATION VARIABLES & EFFECTS */
+
+/* CSS Houdini property for border rotation */
+@property --angle {
+    syntax: "<angle>";
+    initial-value: 0deg;
+    inherits: false;
+}
+
+/* Animated border layers */
+.animated-bgr::before,
+.animated-bgr::after {
+    content: '';
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-image: conic-gradient(from var(--angle),
+            #f7c368, #a1230a, #87ad2f,
+            #f7c368, #a1230a, #87ad2f);
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    border-radius: 10px;
+    animation: spin 3s linear infinite;
+    z-index: 3;
+}
+
+/* Glow blur */
+.animated-bgr::after {
+    filter: blur(20px);
+}
+
+/* Angle spin animation */
+@keyframes spin {
+    from {
+        --angle: 0deg;
+    }
+
+    to {
+        --angle: 360deg;
+    }
+}
+
+/* Gradient animation (shared with TH headers) */
+@keyframes gradientMove {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    100% {
+        background-position: 100% 50%;
+    }
+}

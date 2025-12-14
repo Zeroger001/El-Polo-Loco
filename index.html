@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="img/9_intro_outro_screens/start/fav_pepe.png" sizes="48x48">
+    <link rel="stylesheet" href="css/htmlPage.css">
+    <link rel="stylesheet" href="css/mainMenu.css">
+    <link rel="stylesheet" href="css/instructions.css">
+    <link rel="stylesheet" href="css/responsiveMobile.css">
+    <title>FERTIG POLLO LOCO</title>
+
+    <!-- Sound -->
+    <script src="javascript/sound-manager/SoundManager.helpers.music.js" defer></script>
+    <script src="javascript/sound-manager/SoundManager.helpers.effects.js" defer></script>
+    <script src="javascript/sound-manager/SoundManager.core.js" defer></script>
+
+    <!-- Base -->
+    <script src="javascript/ui/resize.core.js" defer></script>
+    <script src="javascript/ui/resize.ui.js" defer></script>
+    <script src="javascript/ui/ui.gameover.js" defer></script>
+    <script src="javascript/keyboard/mobileControls.js" defer></script>
+    <script src="javascript/instructions/instructions.js" defer></script>
+    <script src="javascript/objects/drawableObjects.class.js"></script>
+    <script src="javascript/objects/movable-object.class.js" defer></script>
+    <script src="javascript/endGameConditions/youWon.class.js" defer></script>
+    <script src="javascript/endGameConditions/youLose.class.js" defer></script>
+
+    <!-- Character + Enemies -->
+    <script src="javascript/character/character.core.js" defer></script>
+    <script src="javascript/character/character.actions.js" defer></script>
+    <script src="javascript/enemys/chicken_medium.class.js" defer></script>
+    <script src="javascript/enemys/chicken_small.class.js" defer></script>
+    <script src="javascript/enemys/chicken_medium_helmet.class.js" defer></script>
+    <script src="javascript/enemys/endboss.class.js" defer></script>
+
+    <!-- Collectible Objects -->
+    <script src="javascript/objects/coin.class.js" defer></script>
+    <script src="javascript/objects/bottle.class.js" defer></script>
+    <script src="javascript/objects/bottleOnGround.class.js" defer></script>
+
+    <!-- Environment -->
+    <script src="javascript/background/cloud.class.js" defer></script>
+    <script src="javascript/background/background-object.class.js" defer></script>
+
+    <!-- Level -->
+    <script src="javascript/levels/level.class.js" defer></script>
+    <script src="javascript/objects/statusBar.class.js"></script>
+    <script src="javascript/levels/level1.js" defer></script>
+    <script src="javascript/levels/level2.js" defer></script>
+    <script src="javascript/levels/level3.js" defer></script>
+
+    <!-- Game Logic -->
+    <script src="javascript/world/world.js" defer></script>
+    <script src="javascript/world/world.GameLogic.js" defer></script>
+    <script src="javascript/world/world.Collisions.js" defer></script>
+    <script src="javascript/world/world.Helpers.js" defer></script>
+    <script src="javascript/world/world.Draw.js" defer></script>
+    <script src="javascript/keyboard/keyboard.class.js" defer></script>
+    <script src="javascript/game/game.js" defer></script>
+
+</head>
+
+<body>
+    <header>
+        <img src="img/9_intro_outro_screens/start/logo.png" alt="">
+    </header>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay">
+        <div class="spinner"></div>
+        <p>Loading...</p>
+    </div>
+
+    <main>
+
+        <div id="main-menu" class="menu">
+            <button id="start-btn"> Start Game </button>
+
+            <div id="level-buttons" class="hidden">
+                <button id="level1_btn">Level 1</button>
+                <button id="level2_btn">Level 2</button>
+                <button id="level3_btn">Level 3</button>
+            </div>
+
+            <button id="instructions-btn">How to Play</button>
+            <button id="controlling-btn">Controls</button>
+            <button id="sound-toggle">🔊 Sound ON</button>
+            <br><br><br>
+            <button id="impressum-btn">Impressum</button>
+
+            <!-- Instructions: hidden until clicked -->
+            <div id="instructions-modal" class="modal hidden">
+                <div class="animated-bgr">
+                    <div class="animated-bgr-content">
+                        <span id="close-modal2" class="close-btn">&times;</span>
+
+                        <h2>The chickens have had enough!</h2>
+                        <p>After decades of factory farming and genetically modified feed, the chickens
+                            developed the
+                            ability to think more complexly than any animal ever had before.
+                            They realized their current situation and started a revolution against humanity.
+                            But just as their march was about to begin, an inconspicuous Samaritan crossed their
+                            path.
+                            His love for chicken and extra spicy salsa would stop their advance!</p>
+
+                        <h2>Goal of the game:</h2>
+                        <p>Reach the end of the level and defeat the boss of the chicken army!</p>
+
+                        <table class="table">
+
+                            <tr>
+                                <td>
+                                    <div class="anim-img chicken"></div>
+                                </td>
+                                <td>Defeat enemies by jumping on their heads or throwing extra spicy salsa at
+                                    them.</td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <div class="anim-img salsa"></div>
+                                </td>
+                                <td>Collect salsa bottles to increase your ammunition.</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="anim-img coin"></div>
+                                </td>
+                                <td>Collect 10 coins to receive healing.</td>
+                            </tr>
+
+                        </table>
+
+                        <h2>Good luck, lone hero!</h2>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Controls: hidden until clicked -->
+            <div id="controlling-modal" class="modal hidden">
+                <div class="animated-bgr">
+                    <div class="animated-bgr-content">
+                        <span id="close-modal" class="close-btn">&times;</span>
+
+                        <table class="table">
+                            <tr>
+                                <th>Key:</th>
+                                <th>Action:</th>
+                            </tr>
+                            <tr>
+                                <td><kbd>↑</kbd></td>
+                                <td>Throw a bottle</td>
+                            </tr>
+
+                            <tr>
+                                <td><kbd>→</kbd></td>
+                                <td>Move right</td>
+                            </tr>
+                            <tr>
+                                <td><kbd>←</kbd></td>
+                                <td>Move left</td>
+                            </tr>
+                            <tr>
+                                <td><kbd>Space</kbd></td>
+                                <td>Jump</td>
+                            </tr>
+                            <tr>
+                                <td><kbd>ESC</kbd> / <kbd>P</kbd></td>
+                                <td>Pause the game</td>
+                            </tr>
+                            <tr>
+                                <td><kbd>M</kbd></td>
+                                <td>Mute sound</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Imprint -->
+            <div id="impressum-modal" class="modal hidden">
+                <div class="animated-bgr">
+                    <div class="animated-bgr-content">
+                        <span id="close-modal3" class="close-btn">&times;</span>
+
+                        <h2>Imprint</h2>
+                        <p>Stefan Seegets</p>
+                        <p>Pastor-Schröder-str. 24</p>
+                        <p>24768 Rendsburg</p>
+                        <h2>Contact</h2>
+                        <p>Phone: 015901885858</p>
+                        <p>Email: zeroger.lp@gmail.com</p>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Game Container -->
+        <div id="game-container">
+
+            <canvas id="canvas" width="720" height="480"></canvas>
+
+            <!-- Game Over Controls -->
+            <div id="gameover-ui" class="hidden">
+                <button id="btn-restart" class="gameover-btn">Restart</button>
+                <button id="btn-menu" class="gameover-btn">Menu</button>
+                <button id="btn-next" class="gameover-btn">Next Level</button>
+            </div>
+
+        </div>
+
+        <!-- Mobile Touch Controls -->
+        <div id="mobile-controls">
+            <div class="control-top">
+                <button class="btn-action" data-action="pause">⏸</button>
+                <button class="btn-action" data-action="mute">🔇</button>
+                <button class="btn-action" id="fullscreen-btn-html">⛶</button>
+            </div>
+
+            <div class="control-left">
+                <button class="btn-control" data-key="LEFT">◀</button>
+                <button class="btn-control" data-key="RIGHT">▶</button>
+            </div>
+
+            <div class="control-right">
+                <button class="btn-control" data-key="SPACE">⏫</button>
+                <button class="btn-control" data-key="UP">🍾</button>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <img src="img/9_intro_outro_screens/start/logo.png" alt="">
+    </footer>
+</body>
+
+</html>
