@@ -118,6 +118,7 @@ function enableMobileExpandedModeOnGameStart() {
  */
 async function startGame(levelObj, levelIndex) {
     prepareGameView();
+    document.body.classList.add("game-running");
     enableMobileExpandedModeOnGameStart();
     setupCanvasMode();
     createWorldInstance(levelObj, levelIndex);

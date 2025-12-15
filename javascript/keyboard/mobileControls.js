@@ -1,15 +1,22 @@
 /**
- * Initializes mobile controls after DOM is ready.
+ * Initializes touch controls after DOM is ready.
  */
 document.addEventListener("DOMContentLoaded", () => {
-    if (!isMobileDeviceControls()) return;
+    if (!shouldUseTouchControls()) return;
 
     const controls = document.getElementById("mobile-controls");
     const fsBtn = document.getElementById("fullscreen-btn-html");
     if (!controls) return;
 
     document.addEventListener("gameStart", () => {
-        controls.style.display = "block";
+        document.body.classList.add("game-running");
+
+        controls.style.pointerEvents = "auto";
+
+        if (fsBtn && shouldEnableMobileFullscreen()) {
+            document.body.classList.add("mobile-fullscreen-enabled");
+        }
+
         updatePauseButtonIcon();
         updateMuteButtonIcon();
     });
@@ -21,141 +28,110 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 /**
- * Returns true if device should use mobile controls.
+ * Determines whether touch controls should be enabled.
  * @returns {boolean}
  */
-function isMobileDeviceControls() {
-    const mq = window.matchMedia("(max-width: 1024px)").matches;
-    const ua = /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i.test(navigator.userAgent);
-    const touch = navigator.maxTouchPoints > 1;
-    return mq || ua || touch;
+function shouldUseTouchControls() {
+    return (
+        'ontouchstart' in window ||
+        navigator.maxTouchPoints > 0 ||
+        window.matchMedia("(max-width: 1024px)").matches
+    );
 }
 
 /**
- * Binds movement and action buttons.
+ * Returns true if fullscreen should be enabled (smartphones only).
+ * @returns {boolean}
+ */
+function shouldEnableMobileFullscreen() {
+    return (
+        navigator.maxTouchPoints > 0 &&
+        window.matchMedia("(max-width: 768px)").matches
+    );
+}
+
+/**
+ * Binds movement buttons.
  */
 function bindControlButtons() {
     document.querySelectorAll(".btn-control").forEach(btn => {
         const key = btn.dataset.key;
         if (!key) return;
-        bindPressEvents(btn, key);
-        bindReleaseEvents(btn, key);
+
+        const press = e => {
+            e.preventDefault();
+            keyboard[key] = true;
+        };
+
+        const release = e => {
+            e.preventDefault();
+            keyboard[key] = false;
+        };
+
+        btn.addEventListener("touchstart", press, { passive: false });
+        btn.addEventListener("mousedown", press);
+
+        btn.addEventListener("touchend", release, { passive: false });
+        btn.addEventListener("touchcancel", release);
+        btn.addEventListener("mouseup", release);
+        btn.addEventListener("mouseleave", release);
     });
 }
 
 /**
- * Binds press events for a control button.
- */
-function bindPressEvents(btn, key) {
-    const handler = e => {
-        e.preventDefault();
-        pressKeyControl(key);
-    };
-    btn.addEventListener("touchstart", handler, { passive: false });
-    btn.addEventListener("mousedown", handler);
-}
-
-/**
- * Binds release events for a control button.
- */
-function bindReleaseEvents(btn, key) {
-    const handler = e => {
-        e.preventDefault();
-        releaseKeyControl(key);
-    };
-    btn.addEventListener("touchend", handler, { passive: false });
-    btn.addEventListener("touchcancel", () => releaseKeyControl(key));
-    btn.addEventListener("mouseup", handler);
-    btn.addEventListener("mouseleave", () => releaseKeyControl(key));
-}
-
-/**
- * Sets a keyboard key to active.
- * @param {string} key
- */
-function pressKeyControl(key) {
-    if (!window.keyboard || !(key in keyboard)) return;
-    keyboard[key] = true;
-}
-
-/**
- * Resets a keyboard key state.
- * @param {string} key
- */
-function releaseKeyControl(key) {
-    if (!window.keyboard || !(key in keyboard)) return;
-    keyboard[key] = false;
-}
-
-/**
- * Binds pause toggle button.
+ * Binds pause button.
  */
 function bindPauseButton() {
-    const btn = document.querySelector('[data-action="pause"]');
-    if (!btn) return;
-
-    const handler = e => {
-        e.preventDefault();
-        if (!window.world?.togglePause) return;
-        world.togglePause();
-        updatePauseButtonIcon();
-    };
-
-    btn.addEventListener("touchstart", handler, { passive: false });
-    btn.addEventListener("click", handler);
+    document.querySelectorAll('[data-action="pause"]').forEach(btn => {
+        btn.addEventListener("click", e => {
+            e.preventDefault();
+            world?.togglePause();
+            updatePauseButtonIcon();
+        });
+    });
 }
 
 /**
- * Updates pause button icon based on pause state.
+ * Updates pause button icon.
  */
 function updatePauseButtonIcon() {
-    const btn = document.querySelector('[data-action="pause"]');
-    if (!btn || !window.world) return;
-    btn.textContent = world.isPaused ? '▶️' : '⏸';
+    document.querySelectorAll('[data-action="pause"]').forEach(btn => {
+        btn.textContent = world?.isPaused ? '▶️' : '⏸';
+    });
 }
 
 /**
- * Binds mute toggle button.
+ * Binds mute button.
  */
 function bindMuteButton() {
-    const btn = document.querySelector('[data-action="mute"]');
-    if (!btn) return;
-
-    const handler = e => {
-        e.preventDefault();
-        if (!window.world?.handleSoundToggle) return;
-        world.handleSoundToggle();
-        world.showSoundToggleIcon?.();
-        updateMuteButtonIcon();
-    };
-
-    btn.addEventListener("touchstart", handler, { passive: false });
-    btn.addEventListener("click", handler);
+    document.querySelectorAll('[data-action="mute"]').forEach(btn => {
+        btn.addEventListener("click", e => {
+            e.preventDefault();
+            world?.handleSoundToggle();
+            world?.showSoundToggleIcon?.();
+            updateMuteButtonIcon();
+        });
+    });
 }
 
 /**
- * Updates mute button icon based on sound state.
+ * Updates mute button icon.
  */
 function updateMuteButtonIcon() {
-    const btn = document.querySelector('[data-action="mute"]');
-    if (!btn || !window.world) return;
-    btn.textContent = world.soundManager.muted ? '🔇' : '🔊';
+    document.querySelectorAll('[data-action="mute"]').forEach(btn => {
+        btn.textContent = world?.soundManager?.muted ? '🔇' : '🔊';
+    });
 }
 
 /**
- * Binds mobile expand (pseudo fullscreen) button.
+ * Binds mobile fullscreen toggle.
  * @param {HTMLElement} btn
  */
 function bindFullscreenButton(btn) {
     if (!btn) return;
 
-    const handler = e => {
+    btn.addEventListener("click", e => {
         e.preventDefault();
-        if (window.toggleMobileExpandedMode) {
-            toggleMobileExpandedMode();
-        }
-    };
-
-    btn.addEventListener("touchstart", handler, { passive: false });
-    btn.addEventListener("click", handler);
+        window.toggleMobileExpandedMode?.();
+    });
 }
