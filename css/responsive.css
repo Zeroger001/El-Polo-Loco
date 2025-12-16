@@ -82,7 +82,7 @@
    SMALL LANDSCAPE WARNING (EXTREME CASES)
    ========================================================= */
 
-@media (pointer: coarse) and (orientation: landscape) and (max-height: 380px) and (max-width: 740px) {
+@media (pointer: coarse) and (orientation: landscape) and (max-height: 300px) and (max-width: 740px) {
 
     body::before {
         content: "📱 Rotate your device for the best experience";
