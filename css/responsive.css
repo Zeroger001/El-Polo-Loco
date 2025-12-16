@@ -1,0 +1,117 @@
+/* =========================================================
+   TOUCH DEVICES – ENABLE MOBILE CONTROLS
+   ========================================================= */
+
+@media (pointer: coarse) {
+    body.game-running #mobile-controls {
+        display: block;
+    }
+}
+
+/* =========================================================
+   FULLSCREEN BUTTON (SMARTPHONE ONLY)
+   ========================================================= */
+
+@media (pointer: coarse) and (max-width: 768px) {
+    body.mobile-fullscreen-enabled #fullscreen-btn-html {
+        display: flex;
+    }
+}
+
+/* =========================================================
+   HARD DISABLE TOUCH CONTROLS ON DESKTOP
+   ========================================================= */
+
+@media (pointer: fine) {
+    #mobile-controls {
+        display: none !important;
+        pointer-events: none !important;
+    }
+}
+
+/* =========================================================
+   LANDSCAPE MENU GRID (TOUCH DEVICES)
+   ========================================================= */
+
+@media (pointer: coarse) and (orientation: landscape) and (max-height: 520px) {
+
+    .menu {
+        display: grid;
+        grid-template-columns: repeat(2, auto);
+        grid-template-rows: repeat(3, auto);
+        gap: 16px 24px;
+
+        justify-content: center;
+        align-content: center;
+        text-align: center;
+    }
+
+    #start-btn {
+        grid-column: 1;
+        grid-row: 1;
+    }
+
+    #instructions-btn {
+        grid-column: 1;
+        grid-row: 2;
+    }
+
+    #controlling-btn {
+        grid-column: 2;
+        grid-row: 1;
+    }
+
+    #sound-toggle {
+        grid-column: 2;
+        grid-row: 2;
+    }
+
+    #impressum-btn {
+        grid-column: 1 / span 2;
+        grid-row: 3;
+        justify-self: center;
+    }
+
+    header,
+    footer {
+        max-height: 60px;
+    }
+}
+
+/* =========================================================
+   SMALL LANDSCAPE WARNING (EXTREME CASES)
+   ========================================================= */
+
+@media (pointer: coarse) and (orientation: landscape) and (max-height: 380px) and (max-width: 740px) {
+
+    body::before {
+        content: "📱 Rotate your device for the best experience";
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.85);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+        font-size: 18px;
+        text-align: center;
+        padding: 20px;
+    }
+
+    .menu {
+        display: none;
+    }
+}
+
+/* =========================================================
+   VERY SMALL DEVICES – MENU STACKING
+   ========================================================= */
+
+@media (pointer: coarse) and (max-width: 536px) {
+
+    .visible {
+        display: flex;
+        flex-direction: column;
+    }
+}

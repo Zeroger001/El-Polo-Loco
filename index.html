@@ -8,7 +8,8 @@
     <link rel="stylesheet" href="css/htmlPage.css">
     <link rel="stylesheet" href="css/mainMenu.css">
     <link rel="stylesheet" href="css/instructions.css">
-    <link rel="stylesheet" href="css/responsiveMobile.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/mobile-ui.css">
     <title>FERTIG POLLO LOCO</title>
 
     <!-- Sound -->
@@ -205,6 +206,34 @@
 
             <canvas id="canvas" width="720" height="480"></canvas>
 
+            <!-- HUD Controls (always visible) -->
+            <div id="game-hud">
+                <button class="hud-btn btn-action" data-action="pause">⏸</button>
+                <button class="hud-btn btn-action" data-action="mute">🔊</button>
+            </div>
+
+            <!-- Mobile Touch Controls -->
+            <div id="mobile-controls">
+
+                <!-- Top right -->
+                <div class="control-top">
+                    <button class="btn-action" id="fullscreen-btn-html">⛶</button>
+                </div>
+
+                <!-- Bottom left -->
+                <div class="control-left">
+                    <button class="btn-control" data-key="LEFT">◀</button>
+                    <button class="btn-control" data-key="RIGHT">▶</button>
+                </div>
+
+                <!-- Bottom right -->
+                <div class="control-right">
+                    <button class="btn-control" data-key="SPACE">⏫</button>
+                    <button class="btn-control" data-key="UP">🍾</button>
+                </div>
+
+            </div>
+
             <!-- Game Over Controls -->
             <div id="gameover-ui" class="hidden">
                 <button id="btn-restart" class="gameover-btn">Restart</button>
@@ -212,29 +241,6 @@
                 <button id="btn-next" class="gameover-btn">Next Level</button>
             </div>
 
-        </div>
-
-        <!-- Hud Controls -->
-        <div id="game-hud">
-            <button class="hud-btn btn-action" data-action="pause">⏸</button>
-            <button class="hud-btn btn-action" data-action="mute">🔊</button>
-        </div>
-
-        <!-- Mobile Touch Controls -->
-        <div id="mobile-controls">
-            <div class="control-top">
-                <button class="btn-action" id="fullscreen-btn-html">⛶</button>
-            </div>
-
-            <div class="control-left">
-                <button class="btn-control" data-key="LEFT">◀</button>
-                <button class="btn-control" data-key="RIGHT">▶</button>
-            </div>
-
-            <div class="control-right">
-                <button class="btn-control" data-key="SPACE">⏫</button>
-                <button class="btn-control" data-key="UP">🍾</button>
-            </div>
         </div>
     </main>
 

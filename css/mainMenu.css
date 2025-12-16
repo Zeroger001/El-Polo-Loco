@@ -1,6 +1,4 @@
-/* ============================
-   1. BUTTONS & CONTROLS
-   ============================ */
+/* 1. BUTTONS & CONTROLS */
 
 .sound-btn {
     position: absolute;
@@ -22,9 +20,7 @@
 }
 
 
-/* ============================
-   2. MENU LAYOUT
-   ============================ */
+/* 2. MENU LAYOUT */
 
 .menu {
     position: absolute;
@@ -68,9 +64,7 @@
 }
 
 
-/* ============================
-   3. CANVAS STATES
-   ============================ */
+/* 3. CANVAS STATES */
 
 canvas {
     display: none;
@@ -78,9 +72,7 @@ canvas {
 }
 
 
-/* ============================
-   4. ANIMATIONS
-   ============================ */
+/* 4. ANIMATIONS */
 
 .hidden {
     opacity: 0;

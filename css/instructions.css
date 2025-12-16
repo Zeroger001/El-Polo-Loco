@@ -30,6 +30,11 @@
     padding: 2em;
     text-align: center;
     font-family: "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif;
+    max-width: 90vw;
+    max-height: 85vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
 }
 
 .animated-bgr-content p {
