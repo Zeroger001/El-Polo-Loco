@@ -1,7 +1,12 @@
 /**
- * Initializes touch controls after DOM is ready.
+ * Initializes UI controls after DOM is ready.
+ * HUD (pause/mute) works on all devices.
+ * Touch controls are enabled only when needed.
  */
 document.addEventListener("DOMContentLoaded", () => {
+    bindPauseButton();
+    bindMuteButton();
+
     if (!shouldUseTouchControls()) return;
 
     const controls = document.getElementById("mobile-controls");
@@ -10,7 +15,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.addEventListener("gameStart", () => {
         document.body.classList.add("game-running");
-
         controls.style.pointerEvents = "auto";
 
         if (fsBtn && shouldEnableMobileFullscreen()) {
@@ -22,8 +26,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     bindControlButtons();
-    bindPauseButton();
-    bindMuteButton();
     bindFullscreenButton(fsBtn);
 });
 
@@ -33,7 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
  */
 function shouldUseTouchControls() {
     return (
-        'ontouchstart' in window ||
+        "ontouchstart" in window ||
         navigator.maxTouchPoints > 0 ||
         window.matchMedia("(max-width: 1024px)").matches
     );
@@ -96,7 +98,7 @@ function bindPauseButton() {
  */
 function updatePauseButtonIcon() {
     document.querySelectorAll('[data-action="pause"]').forEach(btn => {
-        btn.textContent = world?.isPaused ? '▶️' : '⏸';
+        btn.textContent = world?.isPaused ? "▶️" : "⏸";
     });
 }
 
@@ -119,7 +121,7 @@ function bindMuteButton() {
  */
 function updateMuteButtonIcon() {
     document.querySelectorAll('[data-action="mute"]').forEach(btn => {
-        btn.textContent = world?.soundManager?.muted ? '🔇' : '🔊';
+        btn.textContent = world?.soundManager?.muted ? "🔇" : "🔊";
     });
 }
 
