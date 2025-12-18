@@ -130,13 +130,13 @@ body.game-running #game-hud {
 
 .gameover-btn {
     opacity: 0;
-    min-height: 30px;
-    min-width: 60px;
+    min-height: 45px;
+    min-width: 90px;
     border-radius: 10px;
     border: none;
     background-color: #ffaa00;
     cursor: pointer;
-
+    font-size: 24px;
     transform: translateY(30px) scale(0.6) rotate(-180deg);
     transition:
         opacity 0.6s ease-out,
@@ -151,4 +151,5 @@ body.game-running #game-hud {
 .gameover-btn.show {
     opacity: 1;
     transform: translateY(0) scale(1) rotate(0deg);
+    z-index: 1000;
 }

@@ -53,33 +53,6 @@ function appendRotateOverlayContent(el) {
   msg.style.padding = "0 20px";
 
   el.appendChild(msg);
-  el.appendChild(createRotateOkButton());
-}
-
-/**
- * Creates the OK button for the rotate overlay.
- * @returns {HTMLButtonElement}
- */
-function createRotateOkButton() {
-  const btn = document.createElement("button");
-  btn.textContent = "OK";
-
-  Object.assign(btn.style, {
-    marginTop: "20px",
-    padding: "10px 20px",
-    fontSize: "1em",
-    borderRadius: "8px",
-    border: "none",
-    background: "#ffaa00",
-    color: "#000",
-    cursor: "pointer"
-  });
-
-  btn.addEventListener("click", () => {
-    if (isLandscape()) hideRotateOverlay();
-  });
-
-  return btn;
 }
 
 /**

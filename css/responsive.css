@@ -105,13 +105,25 @@
 }
 
 /* =========================================================
-   VERY SMALL DEVICES – MENU STACKING
-   ========================================================= */
+VERY SMALL DEVICES – MENU STACKING
+========================================================= */
 
 @media (pointer: coarse) and (max-width: 536px) {
 
     .visible {
         display: flex;
         flex-direction: column;
+    }
+
+    header,
+    footer {
+        max-height: 90px;
+    }
+}
+
+@media (orientation: landscape) and (max-height: 600px) {
+
+    header {
+        opacity: 0;
     }
 }
